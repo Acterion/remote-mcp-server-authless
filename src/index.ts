@@ -20,6 +20,7 @@ export class MyMCP extends McpAgent {
 		// Create a new study item
 		this.server.tool(
 			"create_study_item",
+			"Create a new study item for learning with spaced repetition scheduling",
 			{
 				userId: z.string().describe("User ID"),
 				type: z.string().describe("Type of study item (e.g., vocab, grammar)"),
@@ -58,6 +59,7 @@ export class MyMCP extends McpAgent {
 		// Update study performance
 		this.server.tool(
 			"update_study_performance",
+			"Update performance/recall strength for a study item and reschedule next review",
 			{
 				id: z.string().describe("Study item ID"),
 				userId: z.string().describe("User ID"),
@@ -67,13 +69,14 @@ export class MyMCP extends McpAgent {
 				try {
 					const nextReview = calculateNextReview(recallStrength);
 					const now = Math.floor(Date.now() / 1000);
+					const nowDate = new Date();
 
 					await db.update(studyItems)
 						.set({
 							recallStrength,
 							lastReviewed: now,
 							nextReview: Math.floor(nextReview.getTime() / 1000),
-							updatedAt: now,
+							updatedAt: nowDate,
 						})
 						.where(and(eq(studyItems.id, id), eq(studyItems.userId, userId)));
 
@@ -91,6 +94,7 @@ export class MyMCP extends McpAgent {
 		// Search study items
 		this.server.tool(
 			"search_study_items",
+			"Search and filter study items by content, tags, type, or difficulty level",
 			{
 				userId: z.string().describe("User ID"),
 				content: z.string().optional().describe("Search by content similarity"),
@@ -143,6 +147,7 @@ export class MyMCP extends McpAgent {
 		// Get items for review
 		this.server.tool(
 			"get_items_for_review",
+			"Get study items that are due for review based on spaced repetition algorithm",
 			{
 				userId: z.string().describe("User ID"),
 				recallStrength: z.enum(['weak', 'medium', 'strong']).optional().describe("Filter by recall strength"),
@@ -180,6 +185,7 @@ export class MyMCP extends McpAgent {
 		// Get study types
 		this.server.tool(
 			"get_study_types",
+			"Get all unique study item types for the user (e.g., vocabulary, grammar, concepts)",
 			{
 				userId: z.string().describe("User ID"),
 			},
@@ -205,6 +211,7 @@ export class MyMCP extends McpAgent {
 		// Get learning stats
 		this.server.tool(
 			"get_learning_stats",
+			"Get comprehensive learning statistics and progress overview for the user",
 			{
 				userId: z.string().describe("User ID"),
 			},
