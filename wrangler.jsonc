@@ -22,6 +22,13 @@
 			}
 		]
 	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "learning-assistant-db",
+			"database_id": "170323d3-9622-4851-8bf0-59db671856d6"
+		}
+	],
 	"observability": {
 		"enabled": true
 	}

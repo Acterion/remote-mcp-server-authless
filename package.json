@@ -9,11 +9,17 @@
 		"lint:fix": "biome lint --fix",
 		"start": "wrangler dev",
 		"cf-typegen": "wrangler types",
-		"type-check": "tsc --noEmit"
+		"type-check": "tsc --noEmit",
+		"db:generate": "drizzle-kit generate",
+		"db:migrate": "wrangler d1 migrations apply learning-assistant-db --local",
+		"db:migrate:prod": "wrangler d1 migrations apply learning-assistant-db"
 	},
 	"dependencies": {
+		"@cloudflare/d1": "^1.4.1",
 		"@modelcontextprotocol/sdk": "1.17.1",
 		"agents": "^0.0.109",
+		"drizzle-kit": "^0.31.4",
+		"drizzle-orm": "^0.44.4",
 		"zod": "^3.25.67"
 	},
 	"devDependencies": {
