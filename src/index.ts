@@ -85,7 +85,7 @@ export class MyMCP extends McpAgent {
           const now = Math.floor(Date.now() / 1000);
           const nowDate = new Date();
 
-          await db
+          const result = await db
             .update(studyItems)
             .set({
               recallStrength,
@@ -93,11 +93,21 @@ export class MyMCP extends McpAgent {
               nextReview: Math.floor(nextReview.getTime() / 1000),
               updatedAt: nowDate,
             })
-            .where(and(eq(studyItems.id, id), eq(studyItems.userId, userId)));
+            .where(and(eq(studyItems.id, id), eq(studyItems.userId, userId)))
+            .returning({ id: studyItems.id });
 
           return {
             content: [
-              { type: "text", text: JSON.stringify({ success: true }) },
+              {
+                type: "text",
+                text: JSON.stringify({
+                  success: result.length > 0,
+                  errorReason:
+                    result.length > 0
+                      ? null
+                      : "Failed to update study item. Check item ID.",
+                }),
+              },
             ],
           };
         } catch (error) {

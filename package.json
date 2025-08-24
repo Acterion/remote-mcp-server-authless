@@ -8,6 +8,7 @@
 		"format": "biome format --write",
 		"lint:fix": "biome lint --fix",
 		"start": "wrangler dev",
+		"inspector": "npx @modelcontextprotocol/inspector",
 		"cf-typegen": "wrangler types",
 		"type-check": "tsc --noEmit",
 		"db:generate": "drizzle-kit generate",
@@ -25,6 +26,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "^2.1.3",
 		"typescript": "5.8.3",
-		"wrangler": "^4.27.0"
+		"wrangler": "^4.27.0",
+		"@modelcontextprotocol/inspector":"^0.16.5"
 	}
 }
